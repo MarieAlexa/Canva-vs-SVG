@@ -1,0 +1,93 @@
+<!DOCTYPE html> 
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>Primitivas Gráficas con Plotly</title>
+  <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+  <style>
+    body {
+      font-family: Arial;
+      padding: 20px;
+    }
+    #menu {
+      margin-bottom: 10px;
+    }
+    #btnDibujar {
+      padding: 5px 15px;
+      font-size: 16px;
+      margin-bottom: 20px;
+    }
+  </style>
+</head>
+<body>
+  <h2>Primitivas Gráficas con Plotly</h2>
+
+  <label for="menu">Selecciona una primitiva:</label><br>
+  <select id="menu">
+    <option value="punto">1. Punto</option>
+    <option value="circunferencia">2. Circunferencia</option>
+    <option value="elipse">3. Elipse</option>
+    <option value="dda">4. Línea DDA</option>
+    <option value="bresenham">5. Línea Bresenham</option>
+  </select>
+
+  <button id="btnDibujar">Dibujar</button>
+
+  <div id="plot" style="width: 600px; height: 600px;"></div>
+
+  <script>
+    const plot = (x, y, title = '') => {
+      const trace = {
+        x: x,
+        y: y,
+        mode: 'markers',
+        marker: { size: 5, color: 'blue' },
+        type: 'scatter'
+      };
+
+      const layout = {
+        title: title,
+        xaxis: { range: [0, 100], dtick: 5, zeroline: false },
+        yaxis: { range: [0, 100], dtick: 5, zeroline: false },
+        margin: { t: 40 }
+      };
+
+      Plotly.newPlot('plot', [trace], layout);
+    };
+
+    const drawPunto = () => plot([50], [50], 'Punto');
+
+    const drawCircunferencia = () => {
+      const x = [], y = [];
+      const r = 30, cx = 50, cy = 50;
+      for (let theta = 0; theta <= 2 * Math.PI; theta += 0.01) {
+        x.push(cx + r * Math.cos(theta));
+        y.push(cy + r * Math.sin(theta));
+      }
+      plot(x, y, 'Circunferencia');
+    };
+
+    const drawElipse = () => {
+      const x = [], y = [];
+      const a = 40, b = 20, cx = 50, cy = 50;
+      for (let theta = 0; theta <= 2 * Math.PI; theta += 0.01) {
+        x.push(cx + a * Math.cos(theta));
+        y.push(cy + b * Math.sin(theta));
+      }
+      plot(x, y, 'Elipse');
+    };
+
+    const drawDDA = () => {
+      const x0 = 10, y0 = 20, x1 = 80, y1 = 60;
+      const x = [], y = [];
+      const dx = x1 - x0;
+      const dy = y1 - y0;
+      const steps = Math.max(Math.abs(dx), Math.abs(dy));
+      const
+
+
+
+
+
+
+
