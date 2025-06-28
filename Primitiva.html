@@ -1,4 +1,4 @@
-<!DOCTYPE html> 
+<!DOCTYPE html>
 <html lang="es">
 <head>
   <meta charset="UTF-8">
@@ -10,11 +10,6 @@
       padding: 20px;
     }
     #menu {
-      margin-bottom: 10px;
-    }
-    #btnDibujar {
-      padding: 5px 15px;
-      font-size: 16px;
       margin-bottom: 20px;
     }
   </style>
@@ -22,7 +17,6 @@
 <body>
   <h2>Primitivas Gráficas con Plotly</h2>
 
-  <label for="menu">Selecciona una primitiva:</label><br>
   <select id="menu">
     <option value="punto">1. Punto</option>
     <option value="circunferencia">2. Circunferencia</option>
@@ -30,8 +24,6 @@
     <option value="dda">4. Línea DDA</option>
     <option value="bresenham">5. Línea Bresenham</option>
   </select>
-
-  <button id="btnDibujar">Dibujar</button>
 
   <div id="plot" style="width: 600px; height: 600px;"></div>
 
@@ -83,7 +75,55 @@
       const dx = x1 - x0;
       const dy = y1 - y0;
       const steps = Math.max(Math.abs(dx), Math.abs(dy));
-      const
+      const xInc = dx / steps;
+      const yInc = dy / steps;
+      let xCurr = x0, yCurr = y0;
+      for (let i = 0; i <= steps; i++) {
+        x.push(Math.round(xCurr));
+        y.push(Math.round(yCurr));
+        xCurr += xInc;
+        yCurr += yInc;
+      }
+      plot(x, y, 'Línea DDA');
+    };
+
+    const drawBresenham = () => {
+      const x0 = 10, y0 = 20, x1 = 80, y1 = 60;
+      const x = [], y = [];
+      let dx = Math.abs(x1 - x0);
+      let dy = Math.abs(y1 - y0);
+      let sx = x0 < x1 ? 1 : -1;
+      let sy = y0 < y1 ? 1 : -1;
+      let err = dx - dy;
+      let xCurr = x0, yCurr = y0;
+
+      while (true) {
+        x.push(xCurr);
+        y.push(yCurr);
+        if (xCurr === x1 && yCurr === y1) break;
+        let e2 = 2 * err;
+        if (e2 > -dy) { err -= dy; xCurr += sx; }
+        if (e2 < dx) { err += dx; yCurr += sy; }
+      }
+
+      plot(x, y, 'Línea Bresenham');
+    };
+
+    const menu = document.getElementById('menu');
+    menu.addEventListener('change', () => {
+      switch (menu.value) {
+        case 'punto': drawPunto(); break;
+        case 'circunferencia': drawCircunferencia(); break;
+        case 'elipse': drawElipse(); break;
+        case 'dda': drawDDA(); break;
+        case 'bresenham': drawBresenham(); break;
+      }
+    });
+
+    drawPunto(); 
+  </script>
+</body>
+</html>
 
 
 
